@@ -63,7 +63,7 @@ function createSession() {
     if (err && typeof onError === 'function') {
       onError(err);
     } else if (!err && typeof onConnect === 'function') {
-      onConnect();
+      onConnect(session);
     }
   });
 
