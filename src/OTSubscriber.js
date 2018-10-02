@@ -29,13 +29,6 @@ export default class OTSubscriber extends Component {
     updateSubscriberProperty('subscribeToAudio');
     updateSubscriberProperty('subscribeToVideo');
 
-    // manage height and width properties evolution
-    if (this.props.containerStyle.width && this.props.containerStyle.height) {
-      const container = document.getElementById(this.containerId);
-      container.style.width = this.props.containerStyle.width;
-      container.style.height = this.props.containerStyle.height;
-    }
-
     if (this.props.session !== prevProps.session || this.props.stream !== prevProps.stream) {
       this.destroySubscriber(prevProps.session);
       this.createSubscriber();
@@ -58,7 +51,7 @@ export default class OTSubscriber extends Component {
 
     this.containerId = uuid();
     const { containerId } = this;
-    const container = document.createElement('div');
+    const container = document.createElement('div', { style: this.props.containerStyle });
     container.setAttribute('class', 'OTSubscriberContainer');
     container.setAttribute('id', containerId);
     this.node.appendChild(container);
@@ -114,7 +107,7 @@ export default class OTSubscriber extends Component {
   }
 
   render() {
-    return <div ref={node => (this.node = node)} />;
+    return <div style={this.props.style} ref={node => (this.node = node)} />;
   }
 }
 
@@ -128,6 +121,7 @@ OTSubscriber.propTypes = {
   }),
   properties: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   containerStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   eventHandlers: PropTypes.objectOf(PropTypes.func),
   onSubscribe: PropTypes.func,
   onError: PropTypes.func,
@@ -136,8 +130,9 @@ OTSubscriber.propTypes = {
 OTSubscriber.defaultProps = {
   stream: null,
   session: null,
-  properties: {},
+  style: {},
   containerStyle: {},
+  properties: {},
   eventHandlers: null,
   onSubscribe: null,
   onError: null,
