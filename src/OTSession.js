@@ -77,7 +77,11 @@ export default class OTSession extends Component {
       ) : child),
     );
 
-    return <div>{childrenWithProps}</div>;
+    return (
+      <React.Fragment>
+        {childrenWithProps}
+      </React.Fragment>
+    );
   }
 }
 
